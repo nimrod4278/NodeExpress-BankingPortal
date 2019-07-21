@@ -16,9 +16,42 @@ app.set('view engine', 'ejs');
 // can only send static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// reads acounts.json from json lib in utf8 format
+const accountData = fs.readFileSync(
+    path.join(__dirname, 'json', 'accounts.json'), 'utf8'
+);
+
+// parse the accounts.json read
+const accounts = JSON.parse(accountData);
+
+
+// same as above
+const userData = fs.readFileSync(
+    path.join(__dirname, 'json', 'users.json'), 'utf8'
+);
+
+const users = JSON.parse(userData);
+
 // sends a get http request to root
 // renders index with title index
 // how it is looking auto in views?
-app.get('/', (req, res) => res.render('index', {title: 'Index'}));
+// sends accounts as a parameter
+app.get('/', (req, res) => res.render('index', {title: 'Account Summary', accounts}));
+
+app.get('/savings', (req, res) => {
+    res.render('account', { account: accounts.savings });
+})
+
+app.get('/checking', (req, res) => {
+    res.render('account', { account: accounts.checking });
+})
+
+app.get('/credit', (req, res) => {
+    res.render('account', { account: accounts.credit });
+})
+
+app.get('/profile', (req, res) => {
+    res.render('profile', {user: user[0] } )
+});
 
 app.listen(3000, () => console.log('PS Project Running on port 3000'));

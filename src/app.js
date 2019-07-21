@@ -28,6 +28,9 @@ app.use(express.urlencoded({extended: true}));
 // sends accounts as a parameter
 app.get('/', (req, res) => res.render('index', {title: 'Account Summary', accounts}));
 
+app.use('/account', accountRoutes);
+app.use('/services', servicesRoutes);
+
 app.get('/profile', (req, res) => {
     res.render('profile', {user: users[0] } )
 });
